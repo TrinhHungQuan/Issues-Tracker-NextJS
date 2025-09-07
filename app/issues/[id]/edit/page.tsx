@@ -1,7 +1,8 @@
-import React from 'react'
-import IssueForm from '../../_components/IssueForm'
 import { prisma } from '@/prisma/client'
 import { notFound } from 'next/navigation'
+import dynamic from 'next/dynamic'
+import IssueFormSkeleton from './loading'
+import IssueForm from '@/app/issues/_components/IssueFormWrapperEdit';
 
 interface Props {
     params: Promise<{id: string}>

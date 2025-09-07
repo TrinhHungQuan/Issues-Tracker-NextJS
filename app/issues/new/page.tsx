@@ -1,9 +1,7 @@
-import IssueForm from '../_components/IssueForm'
+import IssueFormWrapper from "../_components/IssueFormWrapper";
 
 const NewIssuePage = () => {
-  return (
-    <IssueForm/>
-  )
-}
+  return <IssueFormWrapper />;
+};
 
-export default NewIssuePage
+export default NewIssuePage;
