@@ -1,8 +1,11 @@
 import { z } from "zod";
 
+const statusSchema = z.enum(["OPEN", "IN_PROGRESS", "CLOSED"]);
+
 export const issueSchema = z.object({
   title: z.string().min(1, "Title is required.").max(255),
   description: z.string().min(1, "Description is required.").max(65535),
+  status: statusSchema.default("OPEN"),
 });
 
 export const patchIssueSchema = z.object({
@@ -18,4 +21,5 @@ export const patchIssueSchema = z.object({
     .max(255)
     .optional()
     .nullable(),
+  status: statusSchema.optional(),
 });
