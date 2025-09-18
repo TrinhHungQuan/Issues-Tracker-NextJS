@@ -20,9 +20,12 @@ const IssuesPage = async ({ searchParams }: Props) => {
     : undefined;
   const where = { status };
 
-  const orderBy = columnName.includes(resolvedSearchParams.orderBy)
-    ? { [resolvedSearchParams.orderBy]: "asc" }
-    : undefined;
+  const orderBy =
+    columnName.includes(resolvedSearchParams.orderBy) &&
+    (resolvedSearchParams.direction === "asc" ||
+      resolvedSearchParams.direction === "desc")
+      ? { [resolvedSearchParams.orderBy]: resolvedSearchParams.direction }
+      : undefined;
 
   const page = parseInt(resolvedSearchParams.page) || 1;
   const pageSize = 10;

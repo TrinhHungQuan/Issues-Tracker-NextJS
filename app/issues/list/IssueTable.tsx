@@ -1,5 +1,5 @@
 import IssueStatusBadge from "@/app/components/IssueStatusBadge";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
+import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
 import { Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
@@ -9,6 +9,7 @@ import { Issue, Status } from "@prisma/client";
 export interface IssueQuery {
   status: Status;
   orderBy: keyof Issue;
+  direction: "asc" | "desc";
   page: string;
 }
 
@@ -24,23 +25,36 @@ const IssueTable = async ({ searchParams, issues }: Props) => {
     <Table.Root variant="surface">
       <Table.Header>
         <Table.Row>
-          {columns.map((column) => (
-            <Table.ColumnHeaderCell
-              key={column.value}
-              className={column.className}
-            >
-              <NextLink
-                href={{
-                  query: { ...resolvedSearchParams, orderBy: column.value },
-                }}
+          {columns.map((column) => {
+            const isActive = column.value === resolvedSearchParams.orderBy;
+            const direction =
+              resolvedSearchParams.direction === "desc" ? "desc" : "asc";
+            return (
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
               >
-                {column.label}
-              </NextLink>
-              {column.value === resolvedSearchParams.orderBy && (
-                <ArrowUpIcon className="inline" />
-              )}
-            </Table.ColumnHeaderCell>
-          ))}
+                <NextLink
+                  href={{
+                    query: {
+                      ...resolvedSearchParams,
+                      orderBy: column.value,
+                      direction:
+                        isActive && direction === "asc" ? "desc" : "asc",
+                    },
+                  }}
+                >
+                  {column.label}
+                </NextLink>
+                {isActive &&
+                  (direction === "asc" ? (
+                    <ArrowUpIcon className="inline" />
+                  ) : (
+                    <ArrowDownIcon className="inline" />
+                  ))}
+              </Table.ColumnHeaderCell>
+            );
+          })}
         </Table.Row>
       </Table.Header>
       <Table.Body>
