@@ -5,6 +5,7 @@ import IssueActions from "./IssueActions";
 import IssueTable, { columnName, IssueQuery } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
+import PageSizeSelect from "@/app/components/PageSizeSelect";
 
 interface Props {
   searchParams: IssueQuery;
@@ -28,7 +29,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
       : undefined;
 
   const page = parseInt(resolvedSearchParams.page) || 1;
-  const pageSize = 10;
+  const pageSize = parseInt(resolvedSearchParams.pageSize);
 
   const issues = await prisma.issue.findMany({
     where,
@@ -45,11 +46,14 @@ const IssuesPage = async ({ searchParams }: Props) => {
     <Flex className="flex-col gap-3">
       <IssueActions />
       <IssueTable searchParams={resolvedSearchParams} issues={issues} />
-      <Pagination
-        pageSize={pageSize}
-        currentPage={page}
-        itemCount={issueCount}
-      />
+      <Flex className="gap-3">
+        <Pagination
+          pageSize={pageSize}
+          currentPage={page}
+          itemCount={issueCount}
+        />
+        <PageSizeSelect />
+      </Flex>
     </Flex>
   );
 };
