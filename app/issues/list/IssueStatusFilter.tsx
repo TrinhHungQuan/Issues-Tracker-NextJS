@@ -1,10 +1,7 @@
 "use client";
 
-import { Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 
 const statuses: { label: string; value: string }[] = [
   { label: "All", value: "ALL" },
@@ -23,8 +20,10 @@ const IssueStatusFilter = () => {
       onValueChange={(status) => {
         const params = new URLSearchParams();
         if (status && status !== "ALL") params.append("status", status);
-        if (searchParams.get("orderBy"))
+        if (searchParams.get("orderBy") && searchParams.get("direction")) {
           params.append("orderBy", searchParams.get("orderBy")!);
+          params.append("direction", searchParams.get("direction")!);
+        }
 
         const query = params.size ? "?" + params.toString() : "";
         //status === "ALL" ? "" : `?status=${status}`;
