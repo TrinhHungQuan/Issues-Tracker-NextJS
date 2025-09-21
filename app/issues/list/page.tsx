@@ -19,7 +19,20 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const status = statuses.includes(resolvedSearchParams.status as Status)
     ? resolvedSearchParams.status
     : undefined;
-  const where = { status };
+
+  let where: any = {};
+
+  if (status) {
+    where.status = status;
+  }
+
+  if (resolvedSearchParams.assigneeId) {
+    if (resolvedSearchParams.assigneeId === "UNASSIGNED") {
+      where.assignedToUserId = null;
+    } else {
+      where.assignedToUserId = resolvedSearchParams.assigneeId;
+    }
+  }
 
   const orderBy =
     columnName.includes(resolvedSearchParams.orderBy) &&
@@ -43,7 +56,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   });
 
   return (
-    <Flex className="flex-col gap-3">
+    <Flex className="flex-col gap-4">
       <IssueActions />
       <IssueTable searchParams={resolvedSearchParams} issues={issues} />
       <Flex className="gap-3">

@@ -12,6 +12,7 @@ export interface IssueQuery {
   direction: "asc" | "desc";
   page: string;
   pageSize: string;
+  assigneeId: string;
 }
 
 interface Props {

@@ -2,7 +2,7 @@ import { Table } from "@radix-ui/themes";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import IssueActions from "./IssueActions";
+import LoadingIssueActions from "./LoadingIssueActions";
 
 // For showing the skeleton when loading the table of issues
 // With the same code with the table of issues
@@ -12,7 +12,7 @@ const LoadingIssuePage = () => {
 
   return (
     <>
-      <IssueActions />
+      <LoadingIssueActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
